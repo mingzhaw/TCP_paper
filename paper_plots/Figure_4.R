@@ -1,0 +1,23 @@
+#Open required libraries
+library(reshape2)
+library(ggplot2)
+library(ggpubr)
+
+#Make sure that there is no open graphs
+graphics.off()
+
+
+#Plots of schedules
+size = 24
+results<-read.table("../results/histogram.dat", header=T)
+
+p1<-ggplot(results, aes(x=N_HT, y=TCP_10,fill=factor(schedule)))+geom_bar(position='dodge', stat = "identity")+scale_fill_manual(values=c("blue", "darkgreen", "orange", "red"), labels=c("One low T session", "All medium T sessions", "One high T session and rest low T", "One high T session"))+xlab("Number of HT sessions")+ylab("TCP")+theme_bw(base_size=size)+theme(strip.background = element_rect(colour="black", fill="white"),legend.title=element_blank(),legend.box.background=element_rect(linewidth = 1.5), legend.direction="horizontal",legend.margin=margin(0,0,0,0, unit='mm'),legend.spacing.x=unit(0, "mm"),legend.spacing.y=unit(0, "mm"),plot.margin=margin(0.5,0.5,0.5,0.5,"cm"))+facet_grid(cols=vars("Without~direct~cell~killing"),labeller = label_parsed)+ coord_cartesian(ylim=c(0.55,1.))+ theme(legend.position = "none")
+p2<-ggplot(results, aes(x=N_HT, y=TCP_kill_10,fill=factor(schedule)))+geom_bar(position='dodge', stat = "identity")+scale_fill_manual(values=c("blue", "darkgreen", "orange", "red"), labels=c("One low T session", "All medium T sessions", "One high T session and rest low T", "One high T session"))+xlab("Number of HT sessions")+ylab("TCP")+theme_bw(base_size=size)+theme(strip.background = element_rect(colour="black", fill="white"),legend.title=element_blank(),legend.box.background=element_rect(linewidth = 1.5), legend.direction="horizontal",legend.margin=margin(0,0,0,0, unit='mm'),legend.spacing.x=unit(0, "mm"),legend.spacing.y=unit(0, "mm"),plot.margin=margin(0.5,0.5,0.5,0.5,"cm"))+facet_grid(cols=vars("With~direct~cell~killing"),rows=vars("Time~Interval==10~minutes"),labeller = label_parsed)+ coord_cartesian(ylim=c(0.55,1.))+ theme(legend.position = "none")
+p3<-ggplot(results, aes(x=N_HT, y=TCP_120,fill=factor(schedule)))+geom_bar(position='dodge', stat = "identity")+scale_fill_manual(values=c("blue", "darkgreen", "orange", "red"), labels=c("One low T session", "All medium T sessions", "One high T session and rest low T", "One high T session"))+xlab("Number of HT sessions")+ylab("TCP")+theme_bw(base_size=size)+theme(strip.background = element_rect(colour="black", fill="white"),legend.title=element_blank(),legend.box.background=element_rect(linewidth = 1.5), legend.direction="horizontal",legend.margin=margin(0,0,0,0, unit='mm'),legend.spacing.x=unit(0, "mm"),legend.spacing.y=unit(0, "mm"),plot.margin=margin(0.,0.5,2.,0.5,"cm"))+facet_grid(labeller = label_parsed)+ coord_cartesian(ylim=c(0.55,1.))+ theme(legend.position = "none")
+p4<-ggplot(results, aes(x=N_HT, y=TCP_kill_120,fill=factor(schedule)))+geom_bar(position='dodge', stat = "identity")+scale_fill_manual(values=c("blue", "darkgreen", "orange", "red"), labels=c("One low T session", "All medium T sessions", "One high T session and rest low T", "One high T session"))+xlab("Number of HT sessions")+ylab("TCP")+theme_bw(base_size=size)+theme(strip.background = element_rect(colour="black", fill="white"),legend.title=element_blank(),legend.box.background=element_rect(linewidth = 1.5), legend.direction="horizontal",legend.margin=margin(0,0,0,0, unit='mm'),legend.spacing.x=unit(0, "mm"),legend.spacing.y=unit(0, "mm"),plot.margin=margin(0.,0.5,2.,0.5,"cm"),legend.position=c(1.,0.))+facet_grid(rows=vars("Time~Interval==120~minutes"),labeller = label_parsed)+ coord_cartesian(ylim=c(0.55,1.))+ theme(legend.position = "none")
+
+legend<-ggplot(results, aes(x=N_HT, y=TCP_kill_120,fill=factor(schedule)))+geom_bar(position='dodge', stat = "identity")+scale_fill_manual(values=c("blue", "darkgreen", "orange", "red"), labels=c("One low T session", "All medium T sessions", "One high T session and rest low T", "One high T session"))+xlab("")+ylab("")+coord_cartesian(xlim=c(0,0),ylim=c(0,0))+theme_void()+theme(legend.text=element_text(size=20),legend.title=element_blank(),legend.box.background=element_rect(linewidth = 1.), legend.direction="horizontal", legend.position = c(0.5,1.5),legend.margin=margin(2,5,2,-1, unit='mm'),legend.spacing.x = unit(0.5, 'cm'))+scale_x_discrete(expand = c(0,0))+scale_y_discrete(expand = c(0,0))
+
+pdf("Figure_4.pdf",width=16,height=14)
+ggarrange(ggarrange(p1+xlab(NULL), p2+xlab(NULL), p3, p4, font.label = list(size = size),ncol = 2, nrow = 2),legend, heights = c(2, 0.05), nrow = 2)
+graphics.off()

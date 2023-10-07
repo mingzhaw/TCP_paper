@@ -1,0 +1,22 @@
+#Open required libraries
+library(reshape2)
+library(ggplot2)
+library(ggpubr)
+
+#Make sure that there is no open graphs
+graphics.off()
+
+size = 24
+
+#Plots of cem43
+results<-read.table("../results/cem43.dat", header=T)
+
+p1<-ggplot(results, aes(x=cem))+geom_line(aes(y=TCP_10, color=factor(N_HT)), linewidth=1.5, linetype="dashed")+geom_line(aes(y=TCP_kill_10, color=factor(N_HT)), linewidth=1.5, linetype="solid")+scale_color_manual(values=c("blue", "darkgreen", "orange", "red"), labels=c("3 HT sessions", "4 HT sessions", "5 HT sessions", "6 HT sessions"))+xlab("Total CEM43 (min)")+ylab("Mean TCP")+theme_bw(base_size=size)+theme(strip.background = element_rect(colour="black", fill="white"),legend.title=element_blank(),legend.box.background=element_rect(linewidth = 1.5),legend.position=c(0.83,0.22), legend.direction="vertical",legend.margin=margin(1,1,1,0, unit='mm'),legend.spacing.x=unit(0, "mm"),legend.spacing.y=unit(0, "mm"))+ggtitle("Time Interval = 10 min")+facet_grid(labeller = label_parsed)+xlim(0,150)+ylim(.55,1.)+geom_hline(yintercept=0.5533459312634031, linewidth=1.5)+annotate("text", x=75, y=0.58, label="Only RT", size=8)+ theme(plot.title=element_text(hjust=0.5))
+p2<-ggplot(results, aes(x=cem))+geom_line(aes(y=TCP_60, color=factor(N_HT)), linewidth=1.5, linetype="dashed")+geom_line(aes(y=TCP_kill_60, color=factor(N_HT)), linewidth=1.5, linetype="solid")+scale_color_manual(values=c("blue", "darkgreen", "orange", "red"), labels=c("3 HT sessions", "4 HT sessions", "5 HT sessions", "6 HT sessions"))+xlab("Total CEM43 (min)")+ylab("Mean TCP")+theme_bw(base_size=size)+theme(strip.background = element_rect(colour="black", fill="white"),legend.title=element_blank(),legend.box.background=element_rect(linewidth = 1.5),legend.position=c(0.83,0.22), legend.direction="vertical",legend.margin=margin(1,1,1,0, unit='mm'),legend.spacing.x=unit(0, "mm"),legend.spacing.y=unit(0, "mm"))+ggtitle("Time Interval = 60 min")+facet_grid(labeller = label_parsed)+xlim(0,150)+ylim(.55,1.)+geom_hline(yintercept=0.5533459312634031, linewidth=1.5)+annotate("text", x=75, y=0.58, label="Only RT", size=8)+ theme(plot.title=element_text(hjust=0.5))
+p3<-ggplot(results, aes(x=cem))+geom_line(aes(y=TCP_120, color=factor(N_HT)), linewidth=1.5, linetype="dashed")+geom_line(aes(y=TCP_kill_120, color=factor(N_HT)), linewidth=1.5, linetype="solid")+scale_color_manual(values=c("blue", "darkgreen", "orange", "red"), labels=c("3 HT sessions", "4 HT sessions", "5 HT sessions", "6 HT sessions"))+xlab("Total CEM43 (min)")+ylab("Mean TCP")+theme_bw(base_size=size)+theme(strip.background = element_rect(colour="black", fill="white"),legend.title=element_blank(),legend.box.background=element_rect(linewidth = 1.5),legend.position=c(0.83,0.22), legend.direction="vertical",legend.margin=margin(1,1,1,0, unit='mm'),legend.spacing.x=unit(0, "mm"),legend.spacing.y=unit(0, "mm"))+ggtitle("Time Interval = 120 min")+facet_grid(labeller = label_parsed)+xlim(0,150)+ylim(.55,1.)+geom_hline(yintercept=0.5533459312634031, linewidth=1.5)+annotate("text", x=75, y=0.58, label="Only RT", size=8)+ theme(plot.title=element_text(hjust=0.5))
+p4<-ggplot(results, aes(x=cem))+geom_line(aes(y=TCP_240, color=factor(N_HT)), linewidth=1.5, linetype="dashed")+geom_line(aes(y=TCP_kill_240, color=factor(N_HT)), linewidth=1.5, linetype="solid")+scale_color_manual(values=c("blue", "darkgreen", "orange", "red"), labels=c("3 HT sessions", "4 HT sessions", "5 HT sessions", "6 HT sessions"))+xlab("Total CEM43 (min)")+ylab("Mean TCP")+theme_bw(base_size=size)+theme(strip.background = element_rect(colour="black", fill="white"),legend.title=element_blank(),legend.box.background=element_rect(linewidth = 1.5),legend.position=c(0.83,0.45), legend.direction="vertical",legend.margin=margin(1,1,1,0, unit='mm'),legend.spacing.x=unit(0, "mm"),legend.spacing.y=unit(0, "mm"))+ggtitle("Time Interval = 240 min")+facet_grid(labeller = label_parsed)+xlim(0,150)+ylim(.55,1.)+geom_hline(yintercept=0.5533459312634031, linewidth=1.5)+annotate("text", x=75, y=0.58, label="Only RT", size=8)+ theme(plot.title=element_text(hjust=0.5))
+
+
+pdf("Figure_9.pdf",width=16,height=12)
+ggarrange(p1, p2, p3, p4, font.label = list(size = size),ncol = 2, nrow = 2)
+graphics.off()
